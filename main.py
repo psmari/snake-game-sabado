@@ -37,6 +37,7 @@ estado = INICIO
 while running:
     # percorrendo os eventos
     for event in pygame.event.get():
+        gerente.process_events(event)
         # verificando se o evento é do tipo QUIT
         if event.type == pygame.QUIT:
             running = False
@@ -49,6 +50,12 @@ while running:
                 x_snake = x_snake - 10
             if event.key == pygame.K_RIGHT:
                 x_snake = x_snake + 10
+        
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element == botao_inicio:
+                estado = JOGANDO
+        
+        
     
     # limpando a tela            
     screen.fill((0, 0, 0))
