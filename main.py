@@ -1,6 +1,8 @@
 import pygame
 import pygame_gui
 
+from cobra import Cobra
+
 # inicialização do pygame
 pygame.init()
 
@@ -13,11 +15,14 @@ FIM = 3
 # definir tamanhos
 largura_tela = 800
 altura_tela = 800
-largura_snake = 40
-altura_snake = 40
-x_snake = largura_tela/2 - largura_snake/2
-y_snake = altura_tela/2 - altura_snake/2
 
+# instanciando a minha classe
+cobra = Cobra(
+    tamanho=40,
+    cor=(204, 153, 255),
+    x=largura_tela/2 - 40/2,
+    y=altura_tela/2 - 40/2
+)
 # criar a tela
 screen = pygame.display.set_mode((largura_tela, altura_tela))
 
@@ -26,7 +31,7 @@ gerente = pygame_gui.UIManager((largura_tela, altura_tela))
 
 # criar o botão
 botao_inicio = pygame_gui.elements.UIButton(
-    relative_rect=pygame.Rect((x_snake, y_snake), (100, 50)),
+    relative_rect=pygame.Rect((cobra.x, cobra.y), (100, 50)),
     text='Start Game',
     manager=gerente
 )
@@ -42,25 +47,16 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN and estado == JOGANDO:
-            if event.key == pygame.K_UP:
-                y_snake = y_snake - 10
-            if event.key == pygame.K_DOWN:
-                y_snake = y_snake + 10
-            if event.key == pygame.K_LEFT:
-                x_snake = x_snake - 10
-            if event.key == pygame.K_RIGHT:
-                x_snake = x_snake + 10
-        
+            cobra.movimentar(event.key)
+
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == botao_inicio:
                 estado = JOGANDO
         
-        
-    
     # limpando a tela            
     screen.fill((0, 0, 0))
     if estado == JOGANDO:
-        pygame.draw.rect(screen, (204, 153, 255), [(x_snake, y_snake), (largura_snake, altura_snake)])
+        cobra.aparecer(screen)
     if estado == INICIO:
         gerente.update(1 / 60.0)
         gerente.draw_ui(screen)

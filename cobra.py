@@ -13,3 +13,13 @@ class Cobra:
             self.cor,
             ((self.x, self.y), (self.tamanho, self.tamanho))
         )
+    
+    def movimentar(self, key):
+        if key == pygame.K_UP:
+            self.y = self.y - 10
+        if key == pygame.K_DOWN:
+            self.y = self.y + 10
+        if key == pygame.K_LEFT:
+            self.x = self.x - 10
+        if key == pygame.K_RIGHT:
+            self.x = self.x + 10
